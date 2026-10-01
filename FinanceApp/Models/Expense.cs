@@ -1,8 +1,17 @@
-﻿namespace FinanceApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FinanceApp.Models
 {
     public class Expense
     {
         public int Id { get; set; }
-        public string Description { get; set; }//user gales aprasinet savo islaidas
+        [Required]
+        public string Description { get; set; } = null!;// VS tiesiog primena, kad string != null, tai temporarily priskiriam sia reiksme
+        [Required]
+        [Range(0.01, Double.MaxValue, ErrorMessage = "Amount needs to be higher than 0.")]
+        public double Amount { get; set; }
+        [Required]
+        public string Category { get; set; } = null!;
+        public DateTime Date { get; set; } = DateTime.Now;
     }
 }
