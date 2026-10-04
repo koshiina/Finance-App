@@ -1,4 +1,5 @@
 ﻿using FinanceApp.Data;
+using FinanceApp.Data.Services;
 using FinanceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,15 +8,15 @@ namespace FinanceApp.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly FinanceAppContext _context;
-        public ExpensesController(FinanceAppContext context)//leidzia interactint su database
+        private readonly IExpensesServicecs _expensesServ;
+        public ExpensesController(IExpensesServicecs expensesServ)//leidzia interactint su database
         {
-            _context = context;
+            _expensesServ = expensesServ;
         }
 
         public async Task<IActionResult> Index()
         {
-            var expenses = await _context.Expenses.ToListAsync();
+            var expenses = await _expensesServ.GetAll();
             return View(expenses);
         }
         public IActionResult Create()
@@ -29,12 +30,15 @@ namespace FinanceApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Expenses.Add(expense);
-                await _context.SaveChangesAsync();
+                await _expensesServ.Add(expense);
 
                 return RedirectToAction("Index");
             }
             return View(expense);
+        }
+        public IActionResult GetChart()
+        {
+
         }
     }
 }

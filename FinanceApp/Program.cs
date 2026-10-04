@@ -1,4 +1,5 @@
 using FinanceApp.Data;
+using FinanceApp.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FinanceAppContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
+builder.Services.AddScoped<IExpensesServicecs, ExpensesService>();
+//add.Singleton - 1 instance of service for the whole lifetime of app,
+//add.scoped - int one http request a single server instance is created, 
+//Add.transient() - even in case of the same http, different instances are created,
+//for each object that uses that service
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
