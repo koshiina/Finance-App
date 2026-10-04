@@ -2,8 +2,8 @@
 using FinanceApp.Data.Services;
 using FinanceApp.Models;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.EntityFrameworkCore;
+
 namespace FinanceApp.Controllers
 {
     public class ExpensesController : Controller
@@ -38,7 +38,8 @@ namespace FinanceApp.Controllers
         }
         public IActionResult GetChart()
         {
-
+            var data = _expensesServ.GetChartData();
+            return Json(data);
         }
     }
 }
